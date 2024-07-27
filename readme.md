@@ -29,3 +29,7 @@
 # 3. src/init/assets 폴더 : 데이터 테이블 관련 내용
 
 # 4. src/events 폴더 : client <-> server 간 교환한 packet을 읽는 함수
+
+# 5. src/protobuf 폴더 : 서버가 실행을 시작하기 전에 protobuf 파일을 미리 읽어서 서버 메모리에 저장해놓고 패킷이 왔을 때 적절한 protobuf 파일을 실행하여 passing
+
+## > src/init/loadProto.js 를 통해서 proto 파일들(common.proto, response.proto)을 로드(: 읽어서 사용가능한 상태로 만든다)한다.
