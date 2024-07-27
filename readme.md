@@ -27,3 +27,5 @@
 # 2. src/init 폴더 : 서버가 실행을 시작할때 혹은 시작하기 전에 읽어들어거나 실행시켜야할 것들을 작성한 코드 모음
 
 # 3. src/init/assets 폴더 : 데이터 테이블 관련 내용
+
+# 4. src/events 폴더 : client <-> server 간 교환한 packet을 읽는 함수
