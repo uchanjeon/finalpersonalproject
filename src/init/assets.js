@@ -14,7 +14,6 @@ const __dirname = path.dirname(__filename);
 const basePath = path.join(__dirname, '../../assets');
 let gameAssets = {}; // 전역함수로 선언
 
-// 파일 하나를 읽는 함수
 const readFileAsync = (filename) => {
   return new Promise((resolve, reject) => {
     fs.readFile(path.join(basePath, filename), 'utf8', (err, data) => {
@@ -27,7 +26,6 @@ const readFileAsync = (filename) => {
   });
 };
 
-// assets폴더에 있는 데이터 파일 전부를 읽는 함수
 export const loadGameAssets = async () => {
   try {
     const [stages, items, itemUnlocks] = await Promise.all([

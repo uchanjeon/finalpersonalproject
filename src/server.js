@@ -1,26 +1,10 @@
 import net from 'net';
 import initServer from './init/index.js';
 import { config } from './config/config.js';
-
-// 포트 지정
-const PORT = 5555;
+import { onConnection } from './events/onConnection.js';
 
 // 서버 생성
-const server = net.createServer((socket) => {
-  console.log(`Client connected from: ${socket.remoteAddress}:${socket.remotePort}`);
-
-  socket.on('data', (data) => {
-    console.log(`server.js : `, data);
-  });
-
-  socket.on('end', () => {
-    console.log('server.js : Client disconnected');
-  });
-
-  socket.on('error', (err) => {
-    console.error('server.js : Socket error:', err);
-  });
-});
+const server = net.createServer(onConnection);
 
 // initServer 함수가 먼저 실행되고 서버가 실행
 initServer()
@@ -30,10 +14,10 @@ initServer()
       console.log(
         `server.js : server listening on port / PORT: ${config.server.port}, HOST: ${config.server.host}`,
       );
-      console.log(`server.js : `, server.address());
+      console.log(`server.js :`, server.address());
     });
   })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
+  .catch((error) => {
+    console.error(error);
+    process.exit(1); // 오류 발생 시 프로세스 종료
   });
