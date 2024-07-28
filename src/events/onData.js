@@ -1,5 +1,6 @@
 import { config } from '../config/config.js';
-import { TOTAL_LENGTH } from '../constants/header.js';
+import { PACKET_TYPE, TOTAL_LENGTH } from '../constants/header.js';
+import { packetParser } from '../utils/parser/packetParser.js';
 
 export const onData = (socket) => async (data) => {
   // 기존 버퍼(: socket.buffer)에 새로 수신된 데이터(: data: 청크: buffer를 작은 크기로 쪼개놓은 data)를 추가
@@ -21,9 +22,21 @@ export const onData = (socket) => async (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, length);
       socket.buffer = socket.buffer.slice(length);
 
-      console.log(`length: ${length}`);
-      console.log(`packetType: ${packetType}`);
-      console.log(packet);
+      console.log(`server.js > onConnection.js > onData.js : length: ${length}`);
+      console.log(`server.js > onConnection.js > onData.js : packetType: ${packetType}`);
+      console.log(`server.js > onConnection.js > onData.js : packet:`, packet);
+
+      switch (packetType) {
+        case PACKET_TYPE.PING:
+          break;
+        case PACKET_TYPE.NORMAL:
+          const { handlerId, sequence, payload, userId } = packetParser(packet);
+
+          console.log('server.js > onConnection.js > onData.js : handlerId:', handlerId);
+          console.log('server.js > onConnection.js > onData.js : userId:', userId);
+          console.log('server.js > onConnection.js > onData.js : payload:', payload);
+          console.log('server.js > onConnection.js > onData.js : sequence:', sequence);
+      }
     } else {
       // 아직 전체 패킷이 도착하지 않음
       break;

@@ -36,7 +36,7 @@ export const loadGameAssets = async () => {
     gameAssets = { stages, items, itemUnlocks };
     return gameAssets;
   } catch (error) {
-    throw new Error('Failed to load game assets: ' + error.message);
+    throw new Error('assets.js : Failed to load game assets: ' + error.message);
   }
 };
 
