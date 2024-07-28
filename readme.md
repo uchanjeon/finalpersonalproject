@@ -30,7 +30,7 @@
 
 > src/init/loadProto.js 를 통해서 proto 파일들(common.proto, response.proto)을 로드(: 읽어서 사용가능한 상태로 만든다)한다.
 
-# 6. packet parsing : 네트워크 통신에서 데이터를 읽고 해석하는 과정
+# 6. packet parsing : 네트워크 통신에서 데이터를 읽고 해석하는 과정 > onData.js에서 실행
 
 > 네트워크는 데이터를 작은 조각(패킷)으로 나눠서 전송하는데, Packet Parsing은 이러한 패킷이 담고 있는 정보를 추출하고 이해하는 과정
 
@@ -39,3 +39,7 @@
 > 6.2 header 분석 : 패킷의 해더를 분석하여 출발지와 목적지 주소, 프로토콜 유형 등을 확인
 > 6.3 payload 추출 : header 정보를 바탕으로 packet의 payload를 추출
 > 6.4 데이터 처리 : 추출된 데이터를 응용 프로그램에서 사용하거나 추가적인 처리를 위해 전달
+
+# 7. session : 유저 정보를 server memory인 session에 저장
+
+# 8. handler : 유저 정보에서 필요한 정보를 가지고 와서 이용하는 용도(: 이용한다 = 저장, 변환, 재반환, 등등)
