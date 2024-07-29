@@ -2,10 +2,11 @@ import { config } from '../config/config.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js';
-import { getUserById } from '../session/user.session.js';
+import { getUserById, getUserBySocket } from '../session/user.session.js';
 import { handleError } from '../utils/error/errorHandler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
+import { getProtoMessages } from '../init/loadProtos.js';
 
 export const onData = (socket) => async (data) => {
   // 기존 버퍼(: socket.buffer)에 새로 수신된 데이터(: data: 청크: buffer를 작은 크기로 쪼개놓은 data)를 추가
@@ -27,26 +28,39 @@ export const onData = (socket) => async (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, length);
       socket.buffer = socket.buffer.slice(length);
 
-      console.log(`server.js > onConnection.js > onData.js : length: ${length}`);
+      // console.log(`server.js > onConnection.js > onData.js : length: ${length}`);
       console.log(`server.js > onConnection.js > onData.js : packetType: ${packetType}`);
-      console.log(`server.js > onConnection.js > onData.js : packet:`, packet);
+      // console.log(`server.js > onConnection.js > onData.js : packet:`, packet);
 
       try {
         switch (packetType) {
           case PACKET_TYPE.PING:
+            {
+              const protoMessages = getProtoMessages();
+              const Ping = protoMessages.common.Ping;
+              const pingMessage = Ping.decode(packet);
+              const user = getUserBySocket(socket);
+              if (!user) {
+                throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저를 찾을 수 없습니다.');
+              }
+              user.handlePong(pingMessage);
+            }
             break;
           case PACKET_TYPE.NORMAL:
-            const { handlerId, userId, payload, sequence } = packetParser(packet);
+            //-----
+            // const { handlerId, userId, payload, sequence } = packetParser(packet);
+            const { handlerId, userId, payload } = packetParser(packet);
 
-            const user = getUserById(userId);
-            // 유저가 접속해 있는 상황에서 시퀀스 검증
-            if (user && user.sequence !== sequence) {
-              console.error();
-              throw new CustomError(
-                'server.js > onConnection.js > onData.js : 잘못된 호출 값입니다.',
-                ErrorCodes.INVALID_SEQUENCE,
-              );
-            }
+            //-----
+            // const user = getUserById(userId);
+            // // 유저가 접속해 있는 상황에서 시퀀스 검증
+            // if (user && user.sequence !== sequence) {
+            //   console.error();
+            //   throw new CustomError(
+            //     'server.js > onConnection.js > onData.js : 잘못된 호출 값입니다.',
+            //     ErrorCodes.INVALID_SEQUENCE,
+            //   );
+            // }
 
             const handler = getHandlerById(handlerId);
 
