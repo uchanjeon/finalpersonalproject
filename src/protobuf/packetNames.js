@@ -9,8 +9,13 @@ export const packetNames = {
   game: {
     CreateGamePayload: 'game.CreateGamePayload',
     JoinGamePayload: 'game.JoinGamePayload',
+    UpdateLocationPayload: 'game.UpdateLocationPayload',
   },
   response: {
     Response: 'response.Response',
+  },
+  gameNotification: {
+    UpdateLocation: 'gameNotification.UpdateLocation',
+    Start: 'gameNotification.Start',
   },
 };

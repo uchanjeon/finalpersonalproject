@@ -8,7 +8,7 @@ const PACKET_TYPE_LENGTH = 1; // 패킷타입을 나타내는 1바이트
 let userId;
 // let sequence;
 const deviceId = '22222';
-let gameId = '8a6e5456-4e8d-4f4c-b14c-8df48034c845';
+let gameId = '544544c5-a0e8-4574-9918-7bd74451a3df';
 
 const createPacket = (handlerId, payload, clientVersion = '1.0.0', type, name) => {
   const protoMessages = getProtoMessages();
