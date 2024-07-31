@@ -26,3 +26,13 @@ export const createPingPacket = (timestamp) => {
   const pingPacket = ping.encode(message).finish();
   return makeNotification(pingPacket, 0);
 };
+
+export const createLocationPacket = (users) => {
+  const protoMessages = getProtoMessages();
+  const Location = protoMessages.gameNotification.LocationUpdate;
+  const payload = { users };
+  const message = Location.create(payload);
+  const locationPacket = Location.encode(message).finish();
+  console.log(`game.notification`);
+  return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+};

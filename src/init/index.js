@@ -1,6 +1,7 @@
 // assets.js 파일에서 loadGameAssets을 실행시키는 곳
 // 서버가 켜지기 전에 파일을 읽도록 함
 // 서버 초기화 작업
+import { addGameSession } from '../session/game.session.js';
 import { loadGameAssets } from './assets.js';
 import { loadProtos } from './loadProtos.js';
 
@@ -8,6 +9,8 @@ const initServer = async () => {
   try {
     await loadGameAssets();
     await loadProtos();
+    await addGameSession();
+
     // 다음 작업
   } catch (e) {
     console.error(e);

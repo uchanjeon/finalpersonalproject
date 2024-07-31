@@ -5,11 +5,11 @@ import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.j
 import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 
-const initialHandler = async ({ socket, userId, payload }) => {
+const initialHandler = async ({ socket, payload }) => {
   try {
-    const { deviceId } = payload;
+    const { deviceId, playerId } = payload;
 
-    addUser(socket, deviceId);
+    addUser(deviceId, playerId, socket);
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
