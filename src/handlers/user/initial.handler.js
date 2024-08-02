@@ -4,12 +4,19 @@ import { addUser } from '../../session/user.session.js';
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
 import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';
+import { userSessions } from '../../session/sessions.js';
 
-const initialHandler = async ({ socket, payload }) => {
+const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    const { deviceId, playerId } = payload;
+    const { deviceId, playerId, latency } = payload;
+
+    // console.log(`deviceId : `, deviceId);
+    // console.log(`playerId : `, playerId);
+    // console.log(`latency : `, latency);
 
     addUser(deviceId, playerId, socket);
+
+    // console.log(`userSession : `, userSessions);
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
@@ -19,6 +26,7 @@ const initialHandler = async ({ socket, payload }) => {
       deviceId,
     );
 
+    // console.log(initialResponse);
     // 소켓을 통해 클라이언트에게 응답 메시지 전송
     socket.write(initialResponse);
   } catch (err) {

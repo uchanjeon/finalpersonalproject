@@ -30,8 +30,8 @@ export const onData = (socket) => async (data) => {
 
       try {
         switch (packetType) {
-          case PACKET_TYPE.PING:
-            break;
+          // case PACKET_TYPE.PING:
+          //   break;
           case PACKET_TYPE.NORMAL:
             //-----
             // const { handlerId, userId, payload, sequence } = packetParser(packet);
