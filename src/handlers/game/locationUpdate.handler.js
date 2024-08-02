@@ -23,6 +23,9 @@ const locationUpdateHandler = ({ socket, userId, payload }) => {
     if (!existConnectedUser) {
       throw new CustomError(ErrorCodes.USER_NOT_FOUND, '유저가 존재하지 않습니다.');
     }
+    if (!existUser) {
+      gameSession.addUser(user);
+    }
 
     // 2. 유저 정보 업데이트 - 변경 내용: x, y
     user.updatePosition(x, y);
